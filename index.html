@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Beautiful Wife</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ffb3c1;
+            --bg-dark: #0f0c1b;
+            --card-bg: rgba(255, 255, 255, 0.07);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #251124 0%, var(--bg-dark) 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Floating Hearts Background Effect */
+        .hearts-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            transform: rotate(-45deg);
+            opacity: 0.2;
+            bottom: -50px;
+            animation: float 10s linear infinite;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { left: 10px; top: 0; }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
+            50% { opacity: 0.4; }
+            100% { transform: translateY(-110vh) rotate(-45deg); opacity: 0; }
+        }
+
+        /* Main Container Card */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .heart-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            animation: pulse 1.5s infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Interactive Button */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), #c9184a);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+        }
+
+        /* Hidden Surprise Message */
+        .hidden-message {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hidden-message.show {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .highlight {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="card">
+        <div class="heart-icon">❤️</div>
+        <h1>To My Amazing Wife</h1>
+        <h2>❤️❤️❤️I LOVE YOU❤️❤️❤️</h2>
+        <h3>💋💋💋My Ladoooo💋💋💋💋</h3>
+        
+        <button class="btn" onclick="revealMessage()">Check My Love Meter</button>
+        
+        <div class="hidden-message" id="surprise">
+            <p><strong>Error 404:</strong> Scale Out of Bounds! 📈</p>
+            <p>My love for you is off the charts. I love you more today than yesterday, but not as much as tomorrow!</p>
+        </div>
+    </div>
+
+    <script>
+        // Dynamically create floating background hearts
+        const bg = document.getElementById('heartsBg');
+        const totalHearts = 20;
+
+        for (let i = 0; i < totalHearts; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Randomize position, size, and animation timing
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 8 + 's';
+            heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
+            
+            const size = Math.random() * 15 + 10 + 'px';
+            heart.style.width = size;
+            heart.style.height = size;
+
+            bg.appendChild(heart);
+        }
+
+        // Toggle the secret message
+        function revealMessage() {
+            const surprise = document.getElementById('surprise');
+            surprise.classList.toggle('show');
+            
+            // Optional: Change button text after click
+            const btn = document.querySelector('.btn');
+            if(surprise.classList.contains('show')) {
+                btn.textContent = "Close Secret Note";
+            } else {
+                btn.textContent = "Check My Love Meter";
+            }
+        }
+    </script>
+</body>
+</html>
